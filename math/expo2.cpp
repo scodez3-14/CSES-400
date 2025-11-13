@@ -22,7 +22,6 @@ using ll = long long;
 using i128 = __int128;
 using pii = pair<int,int>;
 using vi = vector<int>;
-
 const int MOD = 1e9 + 7;
 const int INF = 1e18;
 
