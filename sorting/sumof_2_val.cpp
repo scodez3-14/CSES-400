@@ -21,34 +21,31 @@ void modadd(ll a,ll b){
   a=(a+b) % M;
 }
 
-void solve(){ 
- int n,x;
- cin>>n>>x;
- vector<int>p(n);
- vector<int>s(n);
- for(int i=0;i<n;i++){
-   cin>>p[i];
- }
- for(int j=0;j<n;j++){
-   cin>>s[j];
- }
+void solve(){
+  int n,x;
+  cin>>n>>x;
+  vector<int>a(n);
+  for(int i=0;i<n;i++){
+    cin>>a[i];
+  }
+  map<int,int>hash;
+  int f=0;
+  for(int i=0;i<n;i++){
+    int need=x-a[i];
+    if(hash.count(need)){
+      cout<<i+1<<" "<<hash[need]+1;
+      cout<<endl;
+      f=1;
+      break;
+    }else{
+      hash[a[i]]=i;
+    }
+  }
+
+  if(f==0){
+    cout<<"IMPOSSIBLE"<<endl;
+  }
   
- int dp[n+1][x+1];
- memset(dp,0,sizeof(dp));
-
- for(int i=1;i<=n;i++){
-   for(int j=0;j<=x;j++){
-     // not take
-     dp[i][j]=dp[i-1][j];
-     if(j-p[i-1]>=0){
-       // take
-       dp[i][j]=max(dp[i-1][j-p[i-1]]+s[i-1],dp[i][j]);
-     }
-   }
- }
-
- cout<<dp[n][x]<<endl;
-
 }
 
 int main() {

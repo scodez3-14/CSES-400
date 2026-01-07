@@ -17,38 +17,44 @@ void logger(string vars, Args&&... values) {
     cout<<endl;
 }
 
-void modadd(ll a,ll b){
-  a=(a+b) % M;
+void modadd(ll &a,ll b){
+   a+=b;
+   if(a>M){
+     a -=M;
+   }
 }
 
-void solve(){ 
- int n,x;
- cin>>n>>x;
- vector<int>p(n);
- vector<int>s(n);
- for(int i=0;i<n;i++){
-   cin>>p[i];
- }
- for(int j=0;j<n;j++){
-   cin>>s[j];
- }
+void solve(){
+  int n;
+  cin>>n;
+  vector<int>a(n);
+  for(int &i:a) cin>>i;
+  ll dp[401][401];
+
+
+  for(int i=0;i<n;i++){
+    dp[i][i]=0;
+  }
+
+  ll p[n];
+  p[0]=a[0];
+
+  for(int i=1;i<n;i++){ 
+    p[i]=p[i-1]+a[i];
+  }
+
+  for(int len=2;len<=n;len++){
+    for(int l=0;l<=n-len;l++){
+      int r=l+len-1;
+      dp[l][r]=1e18;
+      for(int k=l;k<=r-1;k++){
+        dp[l][r] =min(dp[l][r],dp[l][k]+dp[k+1][r] +(l==0 ? p[r] : (p[r]-p[l-1])));
+      }
+    }
+  }
+
+  cout<<dp[0][n-1]<<endl;
   
- int dp[n+1][x+1];
- memset(dp,0,sizeof(dp));
-
- for(int i=1;i<=n;i++){
-   for(int j=0;j<=x;j++){
-     // not take
-     dp[i][j]=dp[i-1][j];
-     if(j-p[i-1]>=0){
-       // take
-       dp[i][j]=max(dp[i-1][j-p[i-1]]+s[i-1],dp[i][j]);
-     }
-   }
- }
-
- cout<<dp[n][x]<<endl;
-
 }
 
 int main() {

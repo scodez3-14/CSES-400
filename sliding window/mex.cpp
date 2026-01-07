@@ -21,35 +21,39 @@ void modadd(ll a,ll b){
   a=(a+b) % M;
 }
 
-void solve(){ 
- int n,x;
- cin>>n>>x;
- vector<int>p(n);
- vector<int>s(n);
- for(int i=0;i<n;i++){
-   cin>>p[i];
- }
- for(int j=0;j<n;j++){
-   cin>>s[j];
- }
-  
- int dp[n+1][x+1];
- memset(dp,0,sizeof(dp));
+int mex(set<int>x){
+    int ans=0;
+    while(x.count(ans)){
+      ans++;
+    }
 
- for(int i=1;i<=n;i++){
-   for(int j=0;j<=x;j++){
-     // not take
-     dp[i][j]=dp[i-1][j];
-     if(j-p[i-1]>=0){
-       // take
-       dp[i][j]=max(dp[i-1][j-p[i-1]]+s[i-1],dp[i][j]);
+    return ans;
+}
+
+void solve(){
+  int n;
+  cin>>n;
+  int k;
+  cin>>k;
+  vector<int>a(n);
+  for(int i:a) cin>>i;
+  //rity_queue<long long, vector<long long>, greater<long long>> pq;
+  set<int>x;
+  for(int i=0;i<k;i++){
+    x.insert(a[i]);
+  }
+  int m=mex(x);
+  vector<int>ans;
+  ans.push_back(m);
+  for(int i=k;i<n;i++){
+     if(a[k]==m){
+
      }
-   }
- }
-
- cout<<dp[n][x]<<endl;
+  }
 
 }
+
+
 
 int main() {
     fastio;

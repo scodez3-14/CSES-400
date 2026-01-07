@@ -17,45 +17,33 @@ void logger(string vars, Args&&... values) {
     cout<<endl;
 }
 
-void modadd(ll a,ll b){
-  a=(a+b) % M;
+void modadd(int &a,int b){
+  a +=b;
+  if(a>=M){
+    a -=M;
+  }
 }
-
-void solve(){ 
- int n,x;
- cin>>n>>x;
- vector<int>p(n);
- vector<int>s(n);
- for(int i=0;i<n;i++){
-   cin>>p[i];
- }
- for(int j=0;j<n;j++){
-   cin>>s[j];
- }
+const int N=1'000'001;
+int dp[N+1][2];
+void solve(){
+  int n;
+  cin>>n;
+  cout<<(dp[n-1][0] + dp[n-1][1]) % M <<endl;
   
- int dp[n+1][x+1];
- memset(dp,0,sizeof(dp));
-
- for(int i=1;i<=n;i++){
-   for(int j=0;j<=x;j++){
-     // not take
-     dp[i][j]=dp[i-1][j];
-     if(j-p[i-1]>=0){
-       // take
-       dp[i][j]=max(dp[i-1][j-p[i-1]]+s[i-1],dp[i][j]);
-     }
-   }
- }
-
- cout<<dp[n][x]<<endl;
-
 }
 
 int main() {
     fastio;
-    
+  dp[0][0]=1;
+  dp[0][1]=1;
+  for(int i=0;i<N;i++){
+    modadd(dp[i+1][1],dp[i][0]);
+    modadd(dp[i+1][1],4ll*dp[i][1] % M);
+    modadd(dp[i+1][0],2*dp[i][0] % M );
+    modadd(dp[i+1][0],dp[i][1]);
+  }
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while (t--) {
        solve(); 
     }
